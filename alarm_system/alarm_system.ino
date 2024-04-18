@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <ezButton.h>
@@ -6,7 +5,7 @@
 // Config
 #define STASSID "S23 Ultra von Jonas"
 #define STAPSK "#*4ZgzSB"
-#define MQTTIP "192.168.229.106"
+#define MQTTIP "10.35.198.125"
 #define SUBTOPIC "SmartHome/AlarmSystem"
 #define PORT 1883
 #define CLIENTNAME "ESP8266_ALARMSYSTEM"
@@ -22,10 +21,35 @@ WiFiClient espClient;
 PubSubClient mqttClient(espClient);
  
 String Message;
-bool alarmIsActive = false;
 
+// Device functions are running, or not
+bool alarmIsActive = false;
+bool lampIsActive = true;
+
+/*
+  The callback void is called, when a new MQTT message went in.
+  The message comes in as a byte array and the contents will
+  be converted into a string
+*/
+void Callback(char* topic, byte* payload, unsigned int length){
+  // Clear previous message value
+  Message = "";
+
+  // For each character, add it to the Message string
+  for(int i = 0; i < length; i++){
+    Message += ((char)payload[i]);
+  }
+  parseMessage(Message);
+}
+
+/*
+  This method is called, when the ESP8266 turns on.
+  It is used to initialize some things
+*/
 void setup() {
+  // Set internal LED
   pinMode(LED_BUILTIN, OUTPUT);
+  
   button.setDebounceTime(50); // Set button debounce time to 50 milliseconds
  
   Serial.begin(9600);
@@ -35,6 +59,8 @@ void setup() {
   Serial.println("Connecting to WiFi...");
   WiFi.mode(WIFI_STA);
   WiFi.begin(STASSID, STAPSK);
+
+  // Wait, until broker is connected to the WiFi
   while (WiFi.status() != WL_CONNECTED) {
     digitalWrite(LED_BUILTIN, LOW);
     delay(500);
@@ -45,7 +71,7 @@ void setup() {
   Serial.println("");
   Serial.println("Connected to WiFi!");
   Serial.println("IP Address: ");
-  Serial.println(WiFi.localIP());
+  Serial.println(WiFi.localIP()); // Print this device's IP address
   
   // Set up MQTT client
   Serial.println("Initialize MQTT client...");
@@ -53,9 +79,11 @@ void setup() {
   mqttClient.setCallback(Callback);
   Serial.println("MQTT client initialized!");
 
+  // Set pins to high or low
   digitalWrite(LED_BUILTIN, LOW);
   digitalWrite(LED_PIN, HIGH);
-  
+
+  // Play startup tone
   tone(13, 4000, 50);
   delay(200);
   tone(13, 2000, 100);
@@ -63,6 +91,9 @@ void setup() {
   tone(13, 2000, 100);
 }
 
+/*
+  This method sends a MQTT message to the broker
+*/
 void sendMessage(String content) {
  if (mqttClient.connected()) {
     // Convert String to char array
@@ -82,48 +113,49 @@ void sendMessage(String content) {
       Serial.println("Error sending MQTT message!");
     }
  } else {
-    ReconnectMQTT();
+    reconnectMQTT();
  }
 }
 
+/*
+  The loop void repeats infinitely on the Arduino / ESP.
+  It checks for pressed buttons and new MQTT messages.
+*/
 void loop() {
-  button.loop(); // Must call the loop function in your main loop
-  
+  button.loop(); // Check, if the ezButton was pressed
+
+  // Detect, if the button was pressed, if so, then toggle the LED pin
   if(button.isPressed()){
     Serial.print("Button was pressed... ");
-    if(digitalRead(LED_PIN) == HIGH){
-      toggleLamp(false);
-      Serial.println("LED off!");
-    } else {
-      toggleLamp(true);
-      Serial.println("LED on!");
+    toggleLamp();
+    if(lampIsActive) Serial.println("LED off!");
+    else Serial.println("LED on!");
     }
-  }
 
+  // If needed, reconnect to the MQTT broker
   if(!mqttClient.connected()){
-    ReconnectMQTT();
+    reconnectMQTT();
   }
-  mqttClient.loop();
+  mqttClient.loop(); // Check for new MQTT messages
 }
- 
-void Callback(char* topic, byte* payload, unsigned int length){
-  Message = "";
-  for(int i = 0; i < length; i++){
-    Message += ((char)payload[i]);
-  }
-  ParseMessage(Message);
-}
- 
-void ReconnectMQTT(){
+
+/*
+  While this client is not connected to the MQTT broker,
+  this method trys to connect to the broker.
+*/
+void reconnectMQTT(){
   while(!mqttClient.connected()) {
-    Serial.println("Log in on MQTT broker");
+    Serial.println("Log in on MQTT broker...");
+    // Connect to broker
     if(mqttClient.connect(CLIENTNAME)){
+      // When connected, resume with the other tasks
       Serial.println("Connected to MQTT broker!");
       Serial.println("Subscribe-Topic: '" SUBTOPIC "'");
       mqttClient.subscribe(SUBTOPIC, 1);
       digitalWrite(LED_BUILTIN, LOW);
       sendMessage(CLIENTNAME " is online!");
     } else {
+      // When not connected, let the LED blink slowly
       Serial.println("Timeout. Next attempt in 3 seconds...");
       digitalWrite(LED_BUILTIN, LOW);
       delay(1500);
@@ -141,70 +173,63 @@ void ReconnectMQTT(){
   ParseMessage(CLIENTNAME " lamp 1");
     => turn on the LED
 */
-void ParseMessage(String message){
+void parseMessage(String message){
   Serial.println("Incoming message: " + message);
   int spaceIndex = message.indexOf(' ');
-  String firstWord = message.substring(0, spaceIndex);
+  String deviceName = message.substring(0, spaceIndex);
   message = message.substring(spaceIndex + 1);
 
   spaceIndex = message.indexOf(' ');
-  String secondWord = message.substring(0, spaceIndex);
-  String thirdWord = message.substring(spaceIndex + 1);
+  String command = message.substring(0, spaceIndex);
 
-  if (firstWord == CLIENTNAME) {
-    if (secondWord == "alarm") {
-      if (thirdWord == "1") {
-        alarmIsActive = true;
-        playAlarm();
-      } else if (thirdWord == "0") {
-        alarmIsActive = false;
-      }
-    }
- }
+  // When this client is called, run the command
+  if (deviceName == CLIENTNAME) {
 
- if (secondWord == "lamp") {
-    if (thirdWord == "0") {
-      toggleLamp(false);
-    } else if (thirdWord == "1") {
-      toggleLamp(true);
-    } else if (thirdWord == "ESP8266_ALARMANLAGE") {
-      String fourthWord = message.substring(message.indexOf(' ') + 1);
-      if (fourthWord == "0") {
-        Serial.println("Lampe auf ESP8266_ALARMANLAGE aus");
-        toggleLamp(false);
-      } else if (fourthWord == "1") {
-        Serial.println("Lampe auf ESP8266_ALARMANLAGE an");
-        toggleLamp(true);
-      }
+    // If the command is "alarm", toggle the alarm
+    if (command == "alarm") {
+      alarmIsActive = !alarmIsActive;
+      playAlarm();
     }
- }
+
+    // When to command is "lamp", toggle the LED pin.
+    if (command == "lamp") toggleLamp();
+  }
 
  delay(1000); // Wait for a second before the next loop iteration
 
  // Re-establish a connection to the broker, if needed
  if(!mqttClient.connected()){
-    ReconnectMQTT();
+    reconnectMQTT();
  }
 }
 
-void toggleLamp(boolean turnOn) {
+/*
+  Toggle the LED pin to high or low
+*/
+void toggleLamp() {
   tone(SPEAKER, 500, 100);
-  if(turnOn) 
-      digitalWrite(LED_PIN, HIGH);
-  else
-      digitalWrite(LED_PIN, LOW);
+  if(lampIsActive) digitalWrite(LED_PIN, HIGH);
+  else digitalWrite(LED_PIN, LOW);
+  lampIsActive = !lampIsActive;
 }
 
+
+/*
+  Play the alarm tone infinitely, until the
+  "ESP8266_ALARMSYSTEM alarm" message goes in
+*/
 void playAlarm() {
   while (alarmIsActive) {
+    // Alarm tone
     tone(SPEAKER, 2000, 1000);
     delay(1000);
     tone(SPEAKER, 4000, 1000);
     delay(1000);
 
-    // Check, if broker is 
+    // Check, if broker is connected
     if(!mqttClient.connected()){
-      ReconnectMQTT();
+      // When not, reconnect to it.
+      reconnectMQTT();
     }
     
     mqttClient.loop(); // Get newest message(s) to call the parse function
