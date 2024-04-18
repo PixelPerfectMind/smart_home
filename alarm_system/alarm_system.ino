@@ -6,10 +6,10 @@
 // Config
 #define STASSID "S23 Ultra von Jonas"
 #define STAPSK "#*4ZgzSB"
-#define MQTTIP "10.35.198.125"
-#define SUBTOPIC "SmartHome"
+#define MQTTIP "192.168.229.106"
+#define SUBTOPIC "SmartHome/AlarmSystem"
 #define PORT 1883
-#define CLIENTNAME "ESP8266_ALARMANLAGE"
+#define CLIENTNAME "ESP8266_ALARMSYSTEM"
  
 // GPIO Pins
 const int BUTTON_PIN = 5;     // D1 on ESP8266
