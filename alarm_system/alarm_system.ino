@@ -223,7 +223,7 @@ void playAlarm() {
     // Alarm tone
     tone(SPEAKER, 2000, 1000);
     delay(1000);
-    tone(SPEAKER, 4000, 1000);
+    tone(SPEAKER, 4000, 1000); 
     delay(1000);
 
     // Check, if broker is connected
