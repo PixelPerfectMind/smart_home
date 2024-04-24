@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\jopraast\Documents\Arduino\smart_home\SmartHomeControl\SmartHomeControlFrontend\obj\Debug\
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControlFrontend\obj\Debug\
 SmartHomeControlFrontend
 none
 false
 DEBUG;TRACE
-C:\Users\jopraast\Documents\Arduino\smart_home\SmartHomeControl\SmartHomeControlFrontend\App.xaml
-1219584333
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControlFrontend\App.xaml
+7559248596
 
-6-793535042
-13-38814620
-MainWindow.xaml;
+11-1464661412
+14595433537
+Dialogs\ConnectingIndicator.xaml;Dialogs\PopUpDialog.xaml;Dialogs\Settings.xaml;Dialogs\ToggleAlarmDialog.xaml;MainWindow.xaml;Resources\ResourceLibrary\Style.xaml;Resources\UserControls\IndeterminateProgressBar.xaml;
 
 True
 

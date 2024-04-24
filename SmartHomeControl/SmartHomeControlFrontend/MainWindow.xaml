@@ -4,9 +4,107 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartHomeControlFrontend"
-        mc:Ignorable="d"
-        Title="Smart Home" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        mc:Ignorable="d" Foreground="#FFB6BBFF" FontSize="16" FontFamily="{StaticResource EncodeSans}"
+        Title="Smart Home" Height="353" Width="502" WindowStartupLocation="CenterScreen"
+        Background="{x:Null}" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" Icon="/Resources/Image/smart-home.png" >
+    <Border CornerRadius="10" Background="#FF01053A" x:Name="windowBorder" RenderTransformOrigin="0.5,0.5" Margin="24">
+        <Border.Effect>
+            <DropShadowEffect Direction="270" BlurRadius="20" />
+        </Border.Effect>
+        <Border.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform x:Name="windowScale" />
+            </TransformGroup>
+        </Border.RenderTransform>
+        <Grid>
+            <Border CornerRadius="10,10,0,0" VerticalAlignment="Top">
+                <Grid>
+
+                    <TextBlock x:Name="txt_windowTitle"
+                        Text="Smart Home"
+                        Foreground="#FFB6BBFF"
+                        TextAlignment="Center"
+                        Padding="0,8,0,0" MouseDown="txt_windowTitle_MouseDown" />
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="14,14,0,0" >
+
+                        <Ellipse
+                            x:Name="ell_closeWindow"
+                            Margin="0,0,4,0"
+                            Style="{StaticResource redEllipse}" MouseDown="ell_closeWindow_MouseDown">
+                            <Ellipse.Triggers>
+                                <EventTrigger RoutedEvent="Ellipse.MouseDown">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="windowBorder" Storyboard.TargetProperty="(Border.Opacity)" From="1" To="0" Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="1" To="0.5" Duration="0:0:0.15" />
+                                            <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="1" To="0.5" Duration="0:0:0.15" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Ellipse.Triggers>
+                        </Ellipse>
+
+                        <Ellipse
+                            Style="{StaticResource yellowEllipse}"
+                            IsEnabled="False"
+                            Margin="0,0,4,0" />
+
+                        <Ellipse
+                            Style="{StaticResource greenEllipse}"
+                            IsEnabled="False"
+                            Margin="0,0,4,0" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,8,8,0" >
+
+                        <Button x:Name="btn_connectToBroker" Style="{StaticResource squareButton}" Margin="0,0,8,0" ToolTip="Mit MQTT-Broker verbinden" Click="btn_connectToBroker_Click">
+                            <Image Source="/Resources/Icon/connect.png" Height="12" Width="12" Margin="4" />
+                        </Button>
+                        <Button x:Name="btn_disconnectToBroker" Style="{StaticResource squareButton}" Margin="0,0,8,0" ToolTip="Verbindung trennen" Visibility="Collapsed" Click="btn_disconnectToBroker_Click">
+                            <Image Source="/Resources/Icon/disconnect.png" Height="12" Width="12" Margin="4" />
+                        </Button>
+                        <Button x:Name="btn_settings" Style="{StaticResource squareButton}" Click="btn_settings_Click">
+                            <Image Source="/Resources/Icon/settings.png" Height="12" Width="12" Margin="4" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <ScrollViewer
+                VerticalScrollBarVisibility="Hidden"
+                Margin="0,31,0,0" >
+                <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                    <StackPanel Margin="0,0,16,0">
+                        <Image Source="/Resources/Image/motherboard.png" Height="128" />
+                        <TextBlock Text="ESP8266_ALARMSYSTEM" Foreground="#FFB6BBFF" TextAlignment="Center" FontWeight="Bold" />
+                        <Button x:Name="btn_alarmLightToggle" Content="Licht an-/ aus" Style="{StaticResource blueButton}" Margin="0,8,0,0" Height="32" Click="btn_alarmLightToggle_Click" />
+                        <Button x:Name="btn_triggerAlarm" Content="Alarm an-/ aus" Margin="0,8,0,0" Style="{StaticResource normalButton}" Height="32" Click="btn_triggerAlarm_Click" />
+                    </StackPanel>
+
+                    <StackPanel>
+                        <Image Source="/Resources/Image/remote.png" Height="128" />
+                        <TextBlock Text="ESP8266_LEDCONTROL" Foreground="#FFB6BBFF" TextAlignment="Center" FontWeight="Bold" />
+                        <Button x:Name="btn_toggleLightLamp" Content="Licht an-/ aus" Style="{StaticResource blueButton}" Margin="0,8,0,0" Height="32" Click="btn_toggleLightLamp_Click" />
+                    </StackPanel>
+                </WrapPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <Border.Triggers>
+            <EventTrigger RoutedEvent="Window.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="windowBorder" Storyboard.TargetProperty="(Border.Opacity)" From="0" To="1" Duration="0:0:0.2" />
+                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleX)" From="0.5" To="1" Duration="0:0:0.2" />
+                        <DoubleAnimation Storyboard.TargetName="windowScale" Storyboard.TargetProperty="(ScaleTransform.ScaleY)" From="0.5" To="1" Duration="0:0:0.2" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Border.Triggers>
+    </Border>
 </Window>

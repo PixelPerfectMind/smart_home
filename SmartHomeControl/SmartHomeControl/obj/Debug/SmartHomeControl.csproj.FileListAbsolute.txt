@@ -1,0 +1,9 @@
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControl\bin\Debug\SmartHomeControl.dll
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControl\bin\Debug\SmartHomeControl.pdb
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControl\obj\Debug\SmartHomeControl.csproj.AssemblyReference.cache
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControl\obj\Debug\SmartHomeControl.csproj.CoreCompileInputs.cache
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControl\obj\Debug\SmartHomeControl.dll
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControl\obj\Debug\SmartHomeControl.pdb
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControl\bin\Debug\M2Mqtt.Net.dll
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControl\bin\Debug\M2Mqtt.Net.pdb
+C:\Users\jopra\Source\Repos\smart_home\SmartHomeControl\SmartHomeControl\obj\Debug\SmartHom.C7CFD365.Up2Date

@@ -55,6 +55,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Resources\UserControls\IndeterminateProgressBar.xaml.cs">
+      <DependentUpon>IndeterminateProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Dialogs\ConnectingIndicator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\PopUpDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ToggleAlarmDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,10 +82,30 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Dialogs\ConnectingIndicator.xaml.cs">
+      <DependentUpon>ConnectingIndicator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\PopUpDialog.xaml.cs">
+      <DependentUpon>PopUpDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ToggleAlarmDialog.xaml.cs">
+      <DependentUpon>ToggleAlarmDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\ResourceLibrary\Style.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\IndeterminateProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -90,9 +129,49 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\FontFamily\EncodeSans.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\motherboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\remote.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\smart-home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icon\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\qestion-mark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmartHomeControl\SmartHomeControl.csproj">
+      <Project>{4E968A0A-7A59-4DD6-A55C-D01EA8D545CE}</Project>
+      <Name>SmartHomeControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\clock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icon\connect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icon\disconnect.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
