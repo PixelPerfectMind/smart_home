@@ -47,18 +47,66 @@ namespace SmartHomeControlFrontend
             toggleAlarmDialog.ShowDialog();
             if (toggleAlarmDialog.Result)
             {
-                MqttConnection.Instance.PublishMessage(new MqttMessage("ESP8266_ALARMSYSTEM alarm", "SmartHome/AlarmSystem"));
+                try
+                {
+                    MqttConnection.Instance.PublishMessage(new MqttMessage("ESP8266_ALARMSYSTEM alarm", "SmartHome/AlarmSystem"));
+                }
+                catch (Exception ex)
+                {
+                    if(ex.Message.ToLower().Contains("object reference not set"))
+                    {
+                        PopUpDialog popUpDialog = new PopUpDialog("Verbindung zum MQTT-Broker nicht hergestellt", "Null-Referenz", PopUpDialog.PopUpDialogKind.Warning);
+                        popUpDialog.ShowDialog();
+                    }
+                    else
+                    {
+                        PopUpDialog popUpDialog = new PopUpDialog(ex.Message, "Fehler", PopUpDialog.PopUpDialogKind.Error);
+                        popUpDialog.ShowDialog();
+                    }
+                }
             }
         }
 
         private void btn_alarmLightToggle_Click(object sender, RoutedEventArgs e)
         {
-            MqttConnection.Instance.PublishMessage(new MqttMessage("ESP8266_ALARMSYSTEM lamp", "SmartHome/AlarmSystem"));
+            try
+            {
+                MqttConnection.Instance.PublishMessage(new MqttMessage("ESP8266_ALARMSYSTEM lamp", "SmartHome/AlarmSystem"));
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.ToLower().Contains("object reference not set"))
+                {
+                    PopUpDialog popUpDialog = new PopUpDialog("Verbindung zum MQTT-Broker nicht hergestellt", "Null-Referenz", PopUpDialog.PopUpDialogKind.Warning);
+                    popUpDialog.ShowDialog();
+                }
+                else
+                {
+                    PopUpDialog popUpDialog = new PopUpDialog(ex.Message, "Fehler", PopUpDialog.PopUpDialogKind.Error);
+                    popUpDialog.ShowDialog();
+                }
+            }
         }
 
         private void btn_toggleLightLamp_Click(object sender, RoutedEventArgs e)
         {
-            MqttConnection.Instance.PublishMessage(new MqttMessage("ESP8266_LEDREMOTE lamp", "SmartHome/SingleLed"));
+            try
+            {
+                MqttConnection.Instance.PublishMessage(new MqttMessage("ESP8266_LEDREMOTE lamp", "SmartHome/SingleLed"));
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.ToLower().Contains("object reference not set"))
+                {
+                    PopUpDialog popUpDialog = new PopUpDialog("Verbindung zum MQTT-Broker nicht hergestellt", "Null-Referenz", PopUpDialog.PopUpDialogKind.Warning);
+                    popUpDialog.ShowDialog();
+                }
+                else
+                {
+                    PopUpDialog popUpDialog = new PopUpDialog(ex.Message, "Fehler", PopUpDialog.PopUpDialogKind.Error);
+                    popUpDialog.ShowDialog();
+                }
+            }
         }
 
         private async void btn_connectToBroker_Click(object sender, RoutedEventArgs e)

@@ -5,6 +5,6 @@
     "\\SmartHomeControl\\SmartHomeControlFrontend",
     "\\SmartHomeControl\\SmartHomeControlFrontend\\Dialogs"
   ],
-  "SelectedNode": "\\SmartHomeControl\\SmartHomeControlFrontend\\Dialogs\\PopUpDialog.xaml",
+  "SelectedNode": "\\SmartHomeControl\\SmartHomeControlFrontend\\MainWindow.xaml.cs",
   "PreviewInSolutionExplorer": false
 }

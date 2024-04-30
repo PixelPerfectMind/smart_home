@@ -5,7 +5,7 @@
 // Config
 #define STASSID "S23 Ultra von Jonas"
 #define STAPSK "#*4ZgzSB"
-#define MQTTIP "192.168.178.111"
+#define MQTTIP "192.168.95.29"
 #define SUBTOPIC "SmartHome/SingleLed"
 #define PORT 1883
 #define CLIENTNAME "ESP8266_LEDREMOTE"
