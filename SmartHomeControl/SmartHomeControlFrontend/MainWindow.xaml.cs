@@ -117,15 +117,15 @@ namespace SmartHomeControlFrontend
             {
                 MqttConnection.Instance.SetBrokerAddress(Properties.Settings.Default.BrokerAddress);
                 MqttConnection.Instance.SetBrokerPort(Properties.Settings.Default.BrokerPort);
-                MqttConnection.Instance.SetClientId("PC_L33L");
+                MqttConnection.Instance.SetClientId(Properties.Settings.Default.ClientName);
 
                 await MqttConnection.Instance.InitializeMqttClient();
 
-                string subscribeTopic = Properties.Settings.Default.SubscribeTopic;
+                string subscribeTopic = "";
 
                 if (!string.IsNullOrEmpty(subscribeTopic))
                 {
-                    MqttConnection.Instance.SetSubscrbeTopic(Properties.Settings.Default.SubscribeTopic);
+                    MqttConnection.Instance.SetSubscrbeTopic("");
                     MqttConnection.Instance.Subscribe(subscribeTopic);
                 }
                 bool isConnected = MqttConnection.Instance.mqttClientIsConnected();

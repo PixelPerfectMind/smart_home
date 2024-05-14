@@ -15,7 +15,7 @@
     AllowsTransparency="True"
     WindowStyle="None"
     ResizeMode="NoResize"
-    Height="450" >
+    Height="365" >
     <Border
         x:Name="windowBorder"
         CornerRadius="10"
@@ -84,9 +84,6 @@
                     <TextBox x:Name="txt_brokerAddress" Margin="0,8,0,0" />
                     <TextBlock Text="Broker-Port:" FontWeight="Bold" Margin="0,16,0,0" />
                     <TextBox x:Name="txt_brokerPort" Margin="0,8,0,0" />
-                    <TextBlock Text="Subscribe-Topic:" FontWeight="Bold" Margin="0,16,0,0" />
-                    <TextBlock Text="Leer lassen, falls kein Topic subscribed werden soll" Margin="0,4,0,0" FontSize="12" TextWrapping="Wrap" />
-                    <TextBox x:Name="txt_subscribeTopic" Margin="0,8,0,0" />
                     <TextBlock Text="Client-Name:" FontWeight="Bold" Margin="0,16,0,0" />
                     <TextBox x:Name="txt_clientName" Margin="0,8,0,0" />
                     <TextBlock x:Name="txt_generateGuid" Text="GUID generieren..." HorizontalAlignment="Right" Margin="0,8,0,0" MouseDown="txt_generateGuid_MouseDown" Cursor="Hand" />

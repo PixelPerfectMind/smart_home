@@ -5,9 +5,6 @@
     <Setting Name="BrokerAddress" Type="System.String" Scope="User">
       <Value Profile="(Default)">192.168.178.10</Value>
     </Setting>
-    <Setting Name="SubscribeTopic" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="BrokerPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1883</Value>
     </Setting>

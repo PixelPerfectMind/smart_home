@@ -37,18 +37,6 @@ namespace SmartHomeControlFrontend.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SubscribeTopic {
-            get {
-                return ((string)(this["SubscribeTopic"]));
-            }
-            set {
-                this["SubscribeTopic"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1883")]
         public int BrokerPort {
             get {

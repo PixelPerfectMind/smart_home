@@ -20,7 +20,6 @@ namespace SmartHomeControlFrontend.Dialogs
         {
             txt_brokerAddress.Text = Properties.Settings.Default.BrokerAddress;
             txt_brokerPort.Text = Properties.Settings.Default.BrokerPort.ToString();
-            txt_subscribeTopic.Text = Properties.Settings.Default.SubscribeTopic;
             txt_clientName.Text = Properties.Settings.Default.ClientName;
         }
 
@@ -47,7 +46,6 @@ namespace SmartHomeControlFrontend.Dialogs
         {
             Properties.Settings.Default.BrokerAddress = txt_brokerAddress.Text;
             Properties.Settings.Default.BrokerPort = int.Parse(txt_brokerPort.Text);
-            Properties.Settings.Default.SubscribeTopic = txt_subscribeTopic.Text;
             Properties.Settings.Default.ClientName = txt_clientName.Text;
             Properties.Settings.Default.Save();
             await Task.Delay(200);
