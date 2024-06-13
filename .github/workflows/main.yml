@@ -2,8 +2,9 @@ on:
   push:
     branches: [main]
     paths:
-    - 'SmartHomeControl/SmartHomeControlFrontend/**.cs'
-    - 'SmartHomeControl/SmartHomeControlFrontend/**.csproj'
+    - 'SmartHomeControl/**.cs'
+    - 'SmartHomeControl/**.csproj'
+    - 'SmartHomeControl/**.sln'
     
 env:
   DOTNET_VERSION: '4.8' # Set the .NET version as variable
