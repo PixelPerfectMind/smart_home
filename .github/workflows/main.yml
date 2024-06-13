@@ -1,0 +1,62 @@
+on:
+  push:
+    branches: [main]
+    paths:
+    - 'SmartHomeControl/SmartHomeControlFrontend/**.cs'
+    - 'SmartHomeControl/SmartHomeControlFrontend/**.csproj'
+    
+env:
+  DOTNET_VERSION: '4.8' # Set the .NET version as variable
+  NUGET_PACKAGE_DIRECTORY: 'SmartHomeControl/SmartHomeControlFrontend/.nuget'
+
+permissions:
+  contents: write
+  discussions: write
+
+jobs:
+
+  test-build-publish:
+    name: test-build-publish
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        cd SmartHomeControl/SmartHomeControlFrontend
+        dotnet restore --packages ${{ env.NUGET_PACKAGE_DIRECTORY }}
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Publish
+      run: |
+        dotnet publish -c Release --no-restore -o./publish
+        cd ../..
+        mkdir SmartHome_Control
+        Move-Item -Path "SmartHomeControl/SmartHomeControlFrontend/publish/SmartHomeControlFrontend.exe" -Destination "SmartHome_Control/SmartHomeControlFrontend.exe"
+        Move-Item -Path "SmartHomeControl/SmartHomeControlFrontend/publish/SmartHomeControlFrontend.dll" -Destination "SmartHome_Control/SmartHomeControlFrontend.dll"
+        Compress-Archive -Path SmartHome_Control -DestinationPath SmartHome_Control.zip
+      
+    - name: Create Release
+      id: create-new-release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
+        
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create-new-release.outputs.upload_url }}
+        asset_path: ./SmartHome_Control.zip
+        asset_name: SmartHomeControl.zip
+        asset_content_type: application/zip
