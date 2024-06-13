@@ -7,7 +7,7 @@ on:
     
 env:
   DOTNET_VERSION: '4.8' # Set the .NET version as variable
-  NUGET_PACKAGE_DIRECTORY: 'SmartHomeControl/SmartHomeControlFrontend/.nuget'
+  NUGET_PACKAGE_DIRECTORY: 'SmartHomeControl/packages'
 
 permissions:
   contents: write
